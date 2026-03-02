@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You🌸</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #FFF0E8 0%, #FFE4F0 50%, #F0E8FF 100%);
+            font-family: 'Quicksand', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ── Floating background particles ── */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            animation: floatUp linear infinite;
+            opacity: 0.55;
+        }
+
+        @keyframes floatUp {
+            0%   { transform: translateY(100vh) rotate(0deg);   opacity: 0; }
+            10%  { opacity: 0.55; }
+            90%  { opacity: 0.55; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* ── Main card ── */
+        .main-container {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            max-width: 560px;
+            width: 92%;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ── Header ── */
+        .header h1 {
+            font-family: 'Caveat', cursive;
+            font-size: 3rem;
+            color: #C97B9B;
+            text-shadow: 0 2px 12px rgba(201,123,155,0.3);
+            line-height: 1.2;
+        }
+
+        .header p {
+            font-size: 0.95rem;
+            color: #A07A8C;
+            margin-top: 0.4rem;
+            font-weight: 500;
+        }
+
+        /* ── Pets row ── */
+        .pets-section {
+            display: flex;
+            gap: 2.5rem;
+            justify-content: center;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            margin: 1.8rem 0 0.5rem;
+        }
+
+        /* ── Cat & Dog shared ── */
+        .cat-section,
+        .dog-section {
+            cursor: pointer;
+            user-select: none;
+            display: inline-block;
+            position: relative;
+            margin-top: 2.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .speech-bubble {
+            position: absolute;
+            top: -52px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            box-shadow: 0 4px 18px rgba(201,123,155,0.25);
+            font-family: 'Caveat', cursive;
+            font-size: 1.1rem;
+            color: #C97B9B;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s, transform 0.25s;
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -7px; left: 50%;
+            transform: translateX(-50%);
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-top: 7px solid white;
+        }
+
+        .speech-bubble.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-4px);
+        }
+
+        /* CSS cat */
+        .cat {
+            position: relative;
+            width: 130px;
+            height: 110px;
+            margin: 0 auto;
+            transition: transform 0.1s;
+        }
+
+        .cat:active { transform: scale(0.94); }
+
+        .cat-head {
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 72px; height: 66px;
+            background: #FFCBA4;
+            border-radius: 50%;
+            animation: headbob 3s ease-in-out infinite;
+            box-shadow: inset -3px -3px 8px rgba(0,0,0,0.08);
+        }
+
+        @keyframes headbob {
+            0%,100% { transform: translateX(-50%) rotate(-4deg); }
+            50%      { transform: translateX(-50%) rotate(4deg); }
+        }
+
+        .ear {
+            position: absolute;
+            top: -14px;
+            width: 0; height: 0;
+            border-left: 11px solid transparent;
+            border-right: 11px solid transparent;
+            border-bottom: 22px solid #FFCBA4;
+        }
+        .ear-left  { left: 4px; }
+        .ear-right { right: 4px; }
+        .ear::after {
+            content: '';
+            position: absolute;
+            top: 5px; left: -7px;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-bottom: 14px solid #FFB08A;
+        }
+
+        .cat-eyes {
+            position: absolute;
+            top: 22px; left: 50%;
+            transform: translateX(-50%);
+            display: flex; gap: 16px;
+        }
+
+        .eye {
+            width: 12px; height: 12px;
+            background: #5C3D2E;
+            border-radius: 50%;
+            position: relative;
+            animation: blink 4.5s ease-in-out infinite;
+        }
+
+        .eye::after {
+            content: '';
+            position: absolute;
+            width: 4px; height: 4px;
+            background: white;
+            border-radius: 50%;
+            top: 2px; left: 2px;
+        }
+
+        @keyframes blink {
+            0%,46%,54%,100% { transform: scaleY(1); }
+            50%              { transform: scaleY(0.08); }
+        }
+
+        .cheeks {
+            position: absolute;
+            top: 30px; left: 50%;
+            transform: translateX(-50%);
+            display: flex; gap: 32px;
+        }
+
+        .cheek {
+            width: 14px; height: 8px;
+            background: rgba(255,140,160,0.45);
+            border-radius: 50%;
+        }
+
+        .cat-nose {
+            position: absolute;
+            top: 38px; left: 50%;
+            transform: translateX(-50%);
+            width: 8px; height: 6px;
+            background: #FF9BAD;
+            border-radius: 50%;
+        }
+
+        .cat-mouth {
+            position: absolute;
+            top: 44px; left: 50%;
+            transform: translateX(-50%);
+            width: 22px; height: 10px;
+            border-bottom: 2px solid #C47870;
+            border-radius: 0 0 50% 50%;
+        }
+
+        .whiskers { position: absolute; top: 36px; left: 50%; transform: translateX(-50%); width: 64px; }
+        .whisker { position: absolute; height: 1.5px; background: #C4A090; border-radius: 1px; }
+        .wl1 { width: 24px; top: 0;  right: 34px; transform: rotate(-8deg); }
+        .wl2 { width: 24px; top: 7px; right: 34px; transform: rotate(5deg); }
+        .wr1 { width: 24px; top: 0;  left: 34px; transform: rotate(8deg); }
+        .wr2 { width: 24px; top: 7px; left: 34px; transform: rotate(-5deg); }
+
+        .cat-body {
+            position: absolute;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 84px; height: 72px;
+            background: #FFCBA4;
+            border-radius: 50% 50% 45% 45%;
+            box-shadow: inset -5px -5px 10px rgba(0,0,0,0.08);
+        }
+
+        .cat-tail {
+            position: absolute;
+            bottom: 18px; right: -22px;
+            width: 38px; height: 13px;
+            background: #FFCBA4;
+            border-radius: 0 10px 10px 0;
+            transform-origin: left center;
+            animation: tailwag 1.6s ease-in-out infinite;
+        }
+
+        @keyframes tailwag {
+            0%,100% { transform: rotate(-22deg); }
+            50%      { transform: rotate(22deg); }
+        }
+
+        .cat-paws {
+            position: absolute;
+            bottom: -9px; left: 50%;
+            transform: translateX(-50%);
+            display: flex; gap: 28px;
+        }
+
+        .paw {
+            width: 24px; height: 14px;
+            background: #FFCBA4;
+            border-radius: 50%;
+            box-shadow: inset -2px -2px 5px rgba(0,0,0,0.09);
+        }
+
+        .hint {
+            font-size: 0.78rem;
+            color: #C4A0B5;
+            margin-top: 0.4rem;
+            font-weight: 500;
+        }
+
+        /* ── Hug button ── */
+        .hug-btn {
+            margin-top: 1.6rem;
+            background: linear-gradient(135deg, #FFB4C2, #FF8FAB);
+            color: white;
+            border: none;
+            padding: 14px 38px;
+            border-radius: 50px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 22px rgba(255,143,171,0.45);
+            transition: transform 0.25s, box-shadow 0.25s;
+            letter-spacing: 0.4px;
+        }
+
+        .hug-btn:hover  { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(255,143,171,0.55); }
+        .hug-btn:active { transform: translateY(0); }
+
+        /* ── Message card ── */
+        .message-card {
+            background: rgba(255,255,255,0.68);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 1.4rem 2rem;
+            margin-top: 1.4rem;
+            box-shadow: 0 8px 30px rgba(201,123,155,0.13);
+            border: 1px solid rgba(255,255,255,0.85);
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .message-card p {
+            font-family: 'Caveat', cursive;
+            font-size: 1.45rem;
+            color: #9B5E7A;
+            line-height: 1.5;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .pop { animation: fadeIn 0.45s ease; }
+
+        /* ── Flying hearts ── */
+        .heart-fly {
+            position: fixed;
+            pointer-events: none;
+            font-size: 1.4rem;
+            animation: flyUp2 1.4s ease-out forwards;
+            z-index: 999;
+        }
+
+        @keyframes flyUp2 {
+            0%   { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+            100% { opacity: 0; transform: translateY(-140px) scale(0.4) rotate(30deg); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+
+    <!-- Header -->
+    <div class="header">
+        <h1>For May Yan 🌸</h1>
+        <p>I know your heart feels heavy right now. You're not alone 💕</p>
+    </div>
+
+    <!-- Cat -->
+    <div class="cat-section" onclick="petCat(event)">
+        <div class="speech-bubble" id="bubble">Purrr... 🐾</div>
+
+        <div class="cat" id="catEl">
+            <div class="cat-head" id="catHead">
+                <div class="ear ear-left"></div>
+                <div class="ear ear-right"></div>
+                <div class="cat-eyes">
+                    <div class="eye"></div>
+                    <div class="eye"></div>
+                </div>
+                <div class="cheeks">
+                    <div class="cheek"></div>
+                    <div class="cheek"></div>
+                </div>
+                <div class="cat-nose"></div>
+                <div class="cat-mouth"></div>
+                <div class="whiskers">
+                    <div class="whisker wl1"></div>
+                    <div class="whisker wl2"></div>
+                    <div class="whisker wr1"></div>
+                    <div class="whisker wr2"></div>
+                </div>
+            </div>
+
+            <div class="cat-body">
+                <div class="cat-tail"></div>
+                <div class="cat-paws">
+                    <div class="paw"></div>
+                    <div class="paw"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hint">click to pet 🐱</div>
+    </div>
+
+    <!-- Button -->
+    <button class="hug-btn" onclick="sendHug(event)">Send a hug 🤗</button>
+
+    <!-- Message -->
+    <div class="message-card">
+        <p id="msg">I know it's hard being back. Press whenever your heart feels heavy 💕</p>
+    </div>
+
+</div>
+
+<script>
+    // ── Cat petting ───────────────────────────────────────
+    const purrs = [
+        "Purrrr~ 🐾", "Mrrrow 💕", "*happy purring* 🌸",
+        "So cozy~ ☕", "Purr purr purr 🐱", "You pet me! 😻",
+        "You're amazing~ 🌟", "*kneads happily* 🐾", "*nuzzles* 🥰",
+        "So warm here ☀️", "You brighten my day! ✨",
+    ];
+
+    let purrTimer;
+
+    function petCat(e) {
+        const head   = document.getElementById('catHead');
+        const bubble = document.getElementById('bubble');
+
+        bubble.textContent = purrs[Math.floor(Math.random() * purrs.length)];
+        bubble.classList.add('show');
+
+        // tiny shake
+        head.style.animation = 'none';
+        void head.offsetHeight;
+        head.style.animation = 'purr 0.09s ease-in-out 8';
+
+        clearTimeout(purrTimer);
+        purrTimer = setTimeout(() => {
+            bubble.classList.remove('show');
+            head.style.animation = 'headbob 3s ease-in-out infinite';
+        }, 1800);
+
+        burst(e.clientX, e.clientY, 3, '💕');
+    }
+
+    // extra keyframe injected once
+    const ks = document.createElement('style');
+    ks.textContent = `@keyframes purr {
+        0%,100% { transform: translateX(-50%) rotate(-3deg) translateX(1px); }
+        50%      { transform: translateX(-50%) rotate(3deg) translateX(-1px); }
+    }`;
+    document.head.appendChild(ks);
+
+    // ── Hug messages ─────────────────────────────────────
+    const hugs = [
+        "Your heart is allowed to be heavy. Rest in that for a moment. 🌸",
+        "You are doing so much more than you give yourself credit for. 💛",
+        "Home feels far, but you carry it with you always. 🏡",
+        "The warmth of family stays in your heart no matter the distance. 🧡",
+        "Feeling this deeply just means you love deeply. That's a gift. 💕",
+        "You show up every day even when it's hard. That's what strength looks like. 💪",
+        "That heavy feeling in your chest? It's love. It's okay to feel it. 💗",
+        "You are so loved. More than you know. 🌸",
+        "Every step forward is you choosing your future. That's brave. 🚀",
+        "It's okay to feel sad. It's okay to need a moment. You're human. 🌧️",
+        "Every hard day is proof of how much you care. Hold onto that. 💝",
+        "You left home, but home never left you. It's right there in your heart. 🫂",
+        "You are stronger than you know. And braver than you feel right now. 💪",
+        "The good moments with the people you love will carry you through. 🌟",
+        "Late nights alone might feel heavy, but you're building something beautiful. 🌃",
+        "It's okay to not be okay. You don't have to hold it all together right now. 🌿",
+        "You are exactly where you need to be. Trust the path. 🛤️",
+        "It's okay that it hurts. That's how you know it was real and worth it. 💝",
+        "You carry so much with grace. Be gentle with yourself too. 🌿",
+        "Your heart is full because you love fully. Never apologize for that. 🧡",
+        "Every goodbye makes the hello even sweeter. 🌅",
+        "You're not running away. You're running towards something great. 🌟",
+        "Having roots means you always have somewhere to return to. That's beautiful. 🌳",
+        "You give so much of yourself every single day. That takes real courage. ⚖️",
+        "The love shared with the people you care about never disappears. 🍜",
+        "You showed up today even with a heavy heart. That's incredible. 💎",
+        "Your dreams are waiting for you. You're exactly where you should be. 🌈",
+        "Distance is hard, but you? You're unstoppable. 🚄",
+        "It's okay to feel everything all at once. You contain multitudes. 🦋",
+        "The people who love you understand. And they're proud of you. 🏡",
+        "Heavy hearts still beat. Tired souls still shine. You're doing both. ✨",
+        "Everything you do, you do it out of love. Never forget that. 🎊",
+        "Love travels. No matter how far, it always finds you. 🌏",
+        "Being away makes you appreciate what you have even more. 🌏",
+        "You're building something real. Keep going. 🏗️",
+        "Every moment, every effort, every step — it all means something. 🚆",
+        "Your heart is heavy because it's full. Full of love and meaning. 💕",
+        "The hard part is behind you. You made it through. Keep going. 🌈",
+        "You deserve rest. You deserve softness. You deserve good things. 🛌",
+        "Distance can't dim the love that surrounds you. It's always there. 🕯️",
+    ];
+
+    let lastIdx = -1;
+
+    function sendHug(e) {
+        let idx;
+        do { idx = Math.floor(Math.random() * hugs.length); }
+        while (idx === lastIdx);
+        lastIdx = idx;
+
+        const el = document.getElementById('msg');
+        el.classList.remove('pop');
+        void el.offsetHeight;
+        el.textContent = hugs[idx];
+        el.classList.add('pop');
+
+        const picks = ['💛','💕','🌸','✨','💗','🌷'];
+        burst(e.clientX, e.clientY, 9, picks[Math.floor(Math.random() * picks.length)]);
+    }
+
+    // ── Heart burst ───────────────────────────────────────
+    function burst(x, y, n, emoji) {
+        for (let i = 0; i < n; i++) {
+            const h = document.createElement('div');
+            h.className = 'heart-fly';
+            h.textContent = emoji;
+            h.style.left = (x + (Math.random() - 0.5) * 70) + 'px';
+            h.style.top  = (y - 10) + 'px';
+            h.style.animationDelay = (i * 0.09) + 's';
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 1600);
+        }
+    }
+
+    // ── Background particles ──────────────────────────────
+    const pool = ['🌸','✨','💕','🍃','⭐','🌷','💫','🌼'];
+
+    function spawnParticle() {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.textContent = pool[Math.floor(Math.random() * pool.length)];
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.fontSize = (0.7 + Math.random() * 0.9) + 'rem';
+        const dur = 9 + Math.random() * 11;
+        p.style.animationDuration = dur + 's';
+        p.style.animationDelay = -(Math.random() * dur) + 's';
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), dur * 1000);
+    }
+
+    for (let i = 0; i < 14; i++) spawnParticle();
+    setInterval(spawnParticle, 1800);
+</script>
+</body>
+</html>
