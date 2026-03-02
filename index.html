@@ -308,6 +308,30 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+            overflow: hidden;
+            animation: cardBreath 4s ease-in-out infinite;
+        }
+
+        @keyframes cardBreath {
+            0%, 100% { box-shadow: 0 8px 30px rgba(201,123,155,0.13); }
+            50%       { box-shadow: 0 10px 40px rgba(201,123,155,0.32), 0 0 22px rgba(255,180,194,0.18); }
+        }
+
+        .message-card.flash::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.7) 50%, transparent 70%);
+            background-size: 250% 100%;
+            animation: shimmer 0.65s ease forwards;
+            pointer-events: none;
+        }
+
+        @keyframes shimmer {
+            0%   { background-position: -150% center; }
+            100% { background-position: 250% center; }
         }
 
         .message-card p {
@@ -318,11 +342,13 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to   { opacity: 1; transform: translateY(0); }
+            0%   { opacity: 0; transform: translateY(10px) scale(0.96); }
+            55%  { transform: translateY(-4px) scale(1.02); }
+            78%  { transform: translateY(2px) scale(0.99); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        .pop { animation: fadeIn 0.45s ease; }
+        .pop { animation: fadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
 
         /* ── Flying hearts ── */
         .heart-fly {
@@ -388,7 +414,7 @@
     </div>
 
     <!-- Button -->
-    <button class="hug-btn" onclick="sendHug(event)">Send a hug 🤗</button>
+    <button class="hug-btn" onclick="sendHug(event)">Send good vibes 🤗</button>
 
     <!-- Message -->
     <div class="message-card">
@@ -443,43 +469,44 @@
         "You are doing so much more than you give yourself credit for. 💛",
         "Home feels far, but you carry it with you always. 🏡",
         "The warmth of family stays in your heart no matter the distance. 🧡",
-        "Feeling this deeply just means you love deeply. That's a gift. 💕",
+        // "Feeling this deeply just means you love deeply. That's a gift. 💕",
         "You show up every day even when it's hard. That's what strength looks like. 💪",
         "That heavy feeling in your chest? It's love. It's okay to feel it. 💗",
         "You are so loved. More than you know. 🌸",
-        "Every step forward is you choosing your future. That's brave. 🚀",
-        "It's okay to feel sad. It's okay to need a moment. You're human. 🌧️",
-        "Every hard day is proof of how much you care. Hold onto that. 💝",
-        "You left home, but home never left you. It's right there in your heart. 🫂",
-        "You are stronger than you know. And braver than you feel right now. 💪",
-        "The good moments with the people you love will carry you through. 🌟",
-        "Late nights alone might feel heavy, but you're building something beautiful. 🌃",
-        "It's okay to not be okay. You don't have to hold it all together right now. 🌿",
-        "You are exactly where you need to be. Trust the path. 🛤️",
-        "It's okay that it hurts. That's how you know it was real and worth it. 💝",
-        "You carry so much with grace. Be gentle with yourself too. 🌿",
-        "Your heart is full because you love fully. Never apologize for that. 🧡",
-        "Every goodbye makes the hello even sweeter. 🌅",
-        "You're not running away. You're running towards something great. 🌟",
-        "Having roots means you always have somewhere to return to. That's beautiful. 🌳",
-        "You give so much of yourself every single day. That takes real courage. ⚖️",
-        "The love shared with the people you care about never disappears. 🍜",
-        "You showed up today even with a heavy heart. That's incredible. 💎",
-        "Your dreams are waiting for you. You're exactly where you should be. 🌈",
-        "Distance is hard, but you? You're unstoppable. 🚄",
-        "It's okay to feel everything all at once. You contain multitudes. 🦋",
+        // "Every step forward is you choosing your future. That's brave. 🚀",
+        // "It's okay to feel sad. It's okay to need a moment. You're human. 🌧️",
+        // "Every hard day is proof of how much you care. Hold onto that. 💝",
+        // "You left home, but home never left you. It's right there in your heart. 🫂",
+        // "You are stronger than you know. And braver than you feel right now. 💪",
+        // "The good moments with the people you love will carry you through. 🌟",
+        // "Late nights alone might feel heavy, but you're building something beautiful. 🌃",
+        // "It's okay to not be okay. You don't have to hold it all together right now. 🌿",
+        // "You are exactly where you need to be. Trust the path. 🛤️",
+        // "It's okay that it hurts. That's how you know it was real and worth it. 💝",
+        // "You carry so much with grace. Be gentle with yourself too. 🌿",
+        // "Your heart is full because you love fully. Never apologize for that. 🧡",
+        // "Every goodbye makes the hello even sweeter. 🌅",
+        // "You're not running away. You're running towards something great. 🌟",
+        // "Having roots means you always have somewhere to return to. That's beautiful. 🌳",
+        // "You give so much of yourself every single day. That takes real courage. ⚖️",
+        // "The love shared with the people you care about never disappears. 🍜",
+        // "You showed up today even with a heavy heart. That's incredible. 💎",
+        // "Your dreams are waiting for you. You're exactly where you should be. 🌈",
+        // "Distance is hard, but you? You're unstoppable. 🚄",
+        // "It's okay to feel everything all at once. You contain multitudes. 🦋",
         "The people who love you understand. And they're proud of you. 🏡",
-        "Heavy hearts still beat. Tired souls still shine. You're doing both. ✨",
-        "Everything you do, you do it out of love. Never forget that. 🎊",
-        "Love travels. No matter how far, it always finds you. 🌏",
+        // "Heavy hearts still beat. Tired souls still shine. You're doing both. ✨",
+        // "Everything you do, you do it out of love. Never forget that. 🎊",
+        // "Love travels. No matter how far, it always finds you. 🌏",
         "Being away makes you appreciate what you have even more. 🌏",
         "You're building something real. Keep going. 🏗️",
         "Every moment, every effort, every step — it all means something. 🚆",
         "Your heart is heavy because it's full. Full of love and meaning. 💕",
         "The hard part is behind you. You made it through. Keep going. 🌈",
-        "You deserve rest. You deserve softness. You deserve good things. 🛌",
-        "Distance can't dim the love that surrounds you. It's always there. 🕯️",
+        // "You deserve rest. You deserve softness. You deserve good things. 🛌",
+        // "Distance can't dim the love that surrounds you. It's always there. 🕯️",
         "Don't feel bad for being weak or emotional. That's just what it means to be human. 🌿",
+        "You say you're weak and emotional. In my mind, you're not. ",
     ];
 
     let lastIdx = -1;
@@ -490,11 +517,16 @@
         while (idx === lastIdx);
         lastIdx = idx;
 
-        const el = document.getElementById('msg');
+        const el   = document.getElementById('msg');
+        const card = el.closest('.message-card');
+
         el.classList.remove('pop');
+        card.classList.remove('flash');
         void el.offsetHeight;
         el.textContent = hugs[idx];
         el.classList.add('pop');
+        card.classList.add('flash');
+        setTimeout(() => card.classList.remove('flash'), 700);
 
         const picks = ['💛','💕','🌸','✨','💗','🌷'];
         burst(e.clientX, e.clientY, 9, picks[Math.floor(Math.random() * picks.length)]);
